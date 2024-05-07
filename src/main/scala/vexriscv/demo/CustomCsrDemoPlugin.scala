@@ -6,6 +6,9 @@ import spinal.lib.{Flow, master}
 import vexriscv.plugin.{CsrInterface, Plugin}
 import vexriscv.{DecoderService, Stageable, VexRiscv}
 
+object CustomCsr{
+  def STCYCLE = 0xB08 // Define a new CSR ID for stcycle
+}
 
 
 class CustomCsrDemoPlugin extends Plugin[VexRiscv]{
@@ -16,6 +19,9 @@ class CustomCsrDemoPlugin extends Plugin[VexRiscv]{
     pipeline plug new Area{
       val instructionCounter = Reg(UInt(32 bits))
       val cycleCounter = Reg(UInt(32 bits))
+      val stcycle   = Reg(UInt(32 bits)) // Create a new register for stcycle and initialize it to 0
+
+      stcycle := 3333 // Set stcycle to 3333
 
       cycleCounter := cycleCounter + 1
       when(writeBack.arbitration.isFiring) {
@@ -25,6 +31,7 @@ class CustomCsrDemoPlugin extends Plugin[VexRiscv]{
       val csrService = pipeline.service(classOf[CsrInterface])
       csrService.rw(0xB04, instructionCounter)
       csrService.r(0xB05, cycleCounter)
+      csrService.r(CustomCsr.STCYCLE, stcycle)
       csrService.onWrite(0xB06){
         instructionCounter := 0
       }

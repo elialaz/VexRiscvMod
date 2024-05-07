@@ -15,7 +15,6 @@ object GenCustomCsr extends App{
       plugins = List(
         new CustomCsrDemoPlugin,
         new CsrPlugin(CsrPluginConfig.small),
-        new CustomCsrDemoGpioPlugin,
         new IBusSimplePlugin(
           resetVector = 0x00000000l,
           cmdForkOnSecondStage = false,
