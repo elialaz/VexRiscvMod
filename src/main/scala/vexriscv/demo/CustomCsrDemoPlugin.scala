@@ -25,7 +25,7 @@ class CustomCsrDemoPlugin extends Plugin[VexRiscv]{
       stcycle := 3333 // Set stcycle to 3333
 
       cycleCounter := cycleCounter + 1
-      when(writeBack.arbitration.isFiring && writeBack.input(INSTRUCTION) =/= 0x00000013 && csrService.read(0x300)(11 downto 10) =/= "11") {
+      when(writeBack.arbitration.isFiring && writeBack.input(INSTRUCTION) =/= 0x00000013) {
         instructionCounter := instructionCounter + 1
         stcycle := stcycle + 5 // Increment stcycle by 5 when the instruction is not a NOP
       }
