@@ -5,7 +5,7 @@ _start:
     li x28, 1
     csrw 0xB09, x1 // Write to the 0xB09 register
     csrr x1, 0xB08 // Read the 0xB08 register
-    li x2, 0
+    li x2, 5
     bne x1, x2, fail // If the value read from the 0xB08 register is not equal to 5, jump to fail
 
     j pass

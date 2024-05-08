@@ -25,7 +25,7 @@ class CustomCsrDemoPlugin extends Plugin[VexRiscv]{
       cycleCounter := cycleCounter + 1
       when(writeBack.arbitration.isFiring && writeBack.input(INSTRUCTION) =/= 0x00000013) {
         instructionCounter := instructionCounter + 1
-        //stcycle := stcycle + 5 // Increment stcycle by 5 when the instruction is not a NOP
+        stcycle := stcycle + 5 // Increment stcycle by 5 when the instruction is not a NOP
       }
 
       val csrService = pipeline.service(classOf[CsrInterface])
