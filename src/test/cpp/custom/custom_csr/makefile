@@ -2,7 +2,7 @@ PROJ_NAME=custom_csr
 
 
 RISCV_PATH=/opt/riscv/
-CFLAGS += -march=rv32i   -mabi=ilp32
+CFLAGS += -march=rv32i_zicsr   -mabi=ilp32
 RISCV_NAME = riscv64-unknown-elf
 RISCV_OBJCOPY = $(RISCV_PATH)/bin/$(RISCV_NAME)-objcopy
 RISCV_OBJDUMP = $(RISCV_PATH)/bin/$(RISCV_NAME)-objdump

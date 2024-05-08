@@ -8,6 +8,7 @@ import vexriscv.{DecoderService, Stageable, VexRiscv}
 
 object CustomCsr{
   def STCYCLE = 0xB08 // Define a new CSR ID for stcycle
+  def NEW_INSTRUCTION = 0xB09 // New CSR ID for the custom instruction
 }
 
 
@@ -24,14 +25,18 @@ class CustomCsrDemoPlugin extends Plugin[VexRiscv]{
       stcycle := 3333 // Set stcycle to 3333
 
       cycleCounter := cycleCounter + 1
-      when(writeBack.arbitration.isFiring) {
+      when(writeBack.arbitration.isFiring && writeBack.input(INSTRUCTION) =/= 0x00000013 && csrService.read(0x300)(11 downto 10) =/= "11") {
         instructionCounter := instructionCounter + 1
+        stcycle := stcycle + 5 // Increment stcycle by 5 when the instruction is not a NOP
       }
 
       val csrService = pipeline.service(classOf[CsrInterface])
       csrService.rw(0xB04, instructionCounter)
       csrService.r(0xB05, cycleCounter)
       csrService.r(CustomCsr.STCYCLE, stcycle)
+      csrService.onWrite(CustomCsr.NEW_INSTRUCTION){
+        stcycle := 0 // Set stcycle to 0 when the new instruction is executed
+      }
       csrService.onWrite(0xB06){
         instructionCounter := 0
       }
