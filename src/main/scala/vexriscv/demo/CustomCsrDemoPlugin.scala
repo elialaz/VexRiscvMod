@@ -34,7 +34,7 @@ class CustomCsrDemoPlugin extends Plugin[VexRiscv]{
       csrService.rw(0xB04, instructionCounter)
       csrService.r(0xB05, cycleCounter)
       csrService.r(CustomCsr.STCYCLE, stcycle)
-      csrService.onRead(CustomCsr.NEW_INSTRUCTION){
+      csrService.onWrite(CustomCsr.NEW_INSTRUCTION){
         stcycle := 0 // Set stcycle to 0 when the new instruction is executed
       }
       csrService.onWrite(0xB06){
