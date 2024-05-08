@@ -32,16 +32,16 @@ class CustomCsrDemoPlugin extends Plugin[VexRiscv]{
 
       val csrService = pipeline.service(classOf[CsrInterface])
       csrService.rw(0xB04, instructionCounter)
-      csrService.r(0xB05, cycleCounter)
-      csrService.r(CustomCsr.STCYCLE, stcycle)
-      csrService.onWrite(CustomCsr.NEW_INSTRUCTION){
-        stcycle := 0 // Set stcycle to 0 when the new instruction is execute
-      }
+      csrService.rw(0xB05, cycleCounter)
       csrService.onWrite(0xB06){
         instructionCounter := 0
       }
       csrService.onRead(0xB07){
         instructionCounter := 0x40000000
+      }
+      csrService.r(CustomCsr.STCYCLE, stcycle)
+      csrService.onWrite(CustomCsr.NEW_INSTRUCTION){
+        stcycle := 0 // Set stcycle to 0 when the new instruction is execute
       }
     }
   }
