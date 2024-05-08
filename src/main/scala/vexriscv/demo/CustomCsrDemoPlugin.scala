@@ -22,8 +22,6 @@ class CustomCsrDemoPlugin extends Plugin[VexRiscv]{
       val cycleCounter = Reg(UInt(32 bits))
       val stcycle   = Reg(UInt(32 bits)) // Create a new register for stcycle and initialize it to 0
 
-      stcycle := 3333 // Set stcycle to 3333
-
       cycleCounter := cycleCounter + 1
       when(writeBack.arbitration.isFiring && writeBack.input(INSTRUCTION) =/= 0x00000013) {
         instructionCounter := instructionCounter + 1
