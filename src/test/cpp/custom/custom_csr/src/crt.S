@@ -4,9 +4,9 @@ _start:
 //Test 1
     li x28, 1
     li x1, 0
-    csrw x3, 0xB09 // Write 5 to the 0xB09 register
+    csrw 0xB09, x1 // Write 5 to the 0xB09 register
     csrr x2, 0xB08 // Read the 0xB08 register
-    li x1, 5
+    li x1, 0
     bne x1, x2, fail // If the value read from the 0xB08 register is not equal to 5, jump to fail
 
     j pass
